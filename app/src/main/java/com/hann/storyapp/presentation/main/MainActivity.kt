@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hann.storyapp.databinding.ActivityMainBinding
+import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.presentation.add.AddStoryActivity
 import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var storyAdapter: StoryAdapter
     private lateinit var binding : ActivityMainBinding
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         initRecyclerView()
+
+        mainViewModel.getUser().observe(this){
+            user = it
+            binding.toolbar.tvName.text = it.name
+        }
 
         mainViewModel.state.observe(this){
             if (it.isLoading){
@@ -54,6 +61,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.getAllStories(user.token)
     }
 
     private fun initRecyclerView() {

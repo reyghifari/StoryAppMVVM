@@ -3,6 +3,7 @@ package com.hann.storyapp.presentation.main
 import android.util.Log
 import androidx.lifecycle.*
 import com.hann.storyapp.data.Resource
+import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.domain.usecase.StoryUseCase
 import com.hann.storyapp.ui.preference.UserPreference
 import com.hann.storyapp.utils.Constants
@@ -34,7 +35,11 @@ class MainViewModel(
         }
     }
 
-    private fun getAllStories(token: String){
+    fun getUser() : LiveData<User>{
+        return pref.getUser().asLiveData()
+    }
+
+     fun getAllStories(token: String){
         storyUseCase.getAllStories(token).onEach {
             result ->
             when(result){

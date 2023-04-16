@@ -89,6 +89,6 @@ val viewModelModule = module {
         DetailViewModel(get())
     }
     viewModel {
-        AddStoryViewModel(get())
+        AddStoryViewModel(get(), get())
     }
 }

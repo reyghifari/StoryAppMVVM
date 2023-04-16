@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
+import com.hann.storyapp.domain.model.User
+import com.hann.storyapp.presentation.main.MainActivity
 import com.hann.storyapp.utils.DataMapper
 import com.hann.storyapp.utils.DataMapper.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,6 +32,7 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var multipartBody: MultipartBody.Part
     private lateinit var requestBody : RequestBody
     private var status : Boolean = false
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,10 @@ class AddStoryActivity : AppCompatActivity() {
             )
         }
 
+        addStoryViewModel.getUser().observe(this){
+            user = it
+        }
+
         addStoryViewModel.state.observe(this){
             if (it.isLoading){
                 Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show()
@@ -54,6 +61,7 @@ class AddStoryActivity : AppCompatActivity() {
             }
             if (it.success.isNotEmpty()){
                 Toast.makeText(this, "Upload Story Berhasil", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
@@ -72,7 +80,7 @@ class AddStoryActivity : AppCompatActivity() {
         val description = binding.tvDescriptionUpload.text.toString()
         requestBody = description.toRequestBody("text/plain".toMediaType())
         if (status){
-            addStoryViewModel.uploadStories(multipartBody, requestBody, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLVVEaFU3RmdOMC04RHlVaVgiLCJpYXQiOjE2ODE2MTc3OTZ9.tzsB1UCnBKrN2P5TOArREK3aJZT333JgrrPEcJek33A")
+            addStoryViewModel.uploadStories(multipartBody, requestBody, user.token)
         }
     }
 
