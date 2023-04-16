@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageRegist"
+        android:layout_width="157dp"
+        android:layout_height="142dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_supervised_user_circle_24" />
+
+    <TextView
+        android:id="@+id/titleRegist"
+        android:layout_width="300dp"
+        android:maxLines="2"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:text="Registrasi Pengguna Baru"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageRegist" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:startIconDrawable="@drawable/baseline_supervisor_account_24"
+        app:layout_constraintTop_toBottomOf="@id/titleRegist"
+        app:boxStrokeColor="@color/purple_700"
+        app:boxStrokeWidth="0dp"
+        android:alpha="0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_edit_regist"
+            android:layout_width="match_parent"
+            android:hint="Masukan Nama Anda"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_edit_regist_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:alpha="0"
+            android:hint="Masukan Email"
+            app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+            app:boxStrokeColor="@color/purple_700"
+            app:boxStrokeWidth="0dp">
+
+            <com.hann.storyapp.ui.customview.EmailEditText
+                android:id="@+id/email_edit_regist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_input_layout_regist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:alpha="0"
+            android:hint="Masukan Password"
+            app:layout_constraintTop_toBottomOf="@id/email_edit_regist_layout"
+            app:boxStrokeColor="@color/purple_700"
+            app:boxStrokeWidth="0dp">
+
+            <com.hann.storyapp.ui.customview.PasswordEditText
+                android:id="@+id/password_edit_regist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <com.hann.storyapp.ui.customview.MyButton
+        android:id="@+id/regist_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_input_layout_regist" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Login Akun"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regist_btn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
