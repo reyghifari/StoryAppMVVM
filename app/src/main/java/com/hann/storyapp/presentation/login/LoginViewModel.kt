@@ -19,7 +19,7 @@ class LoginViewModel(private val storyUseCase: StoryUseCase, private val pref: U
 
     init {
         viewModelScope.launch {
-            delay(3000)
+            delay(1500)
             _isLoadingSplash.value = false
         }
     }

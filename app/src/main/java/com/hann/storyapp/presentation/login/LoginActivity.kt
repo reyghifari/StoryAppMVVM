@@ -51,14 +51,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.state.observe(this){
             if (it.isLoading){
-                Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show()
+                binding.loadingLogin.visibility = View.VISIBLE
             }
             if (it.error.isNotBlank()){
-                Toast.makeText(this, "Error..", Toast.LENGTH_SHORT).show()
+                binding.loadingLogin.visibility = View.GONE
+                Toast.makeText(this, "Gagal Login...", Toast.LENGTH_SHORT).show()
             }
             if (it.success?.name?.isNotEmpty() == true){
+                binding.loadingLogin.visibility = View.GONE
                 Toast.makeText(this, it.success.name + " berhasil login", Toast.LENGTH_SHORT).show()
-                Log.d("tokenn", it.success.token)
                 val user = User(name = it.success.name, token = it.success.token, isLogin = true)
                 loginViewModel.saveUser(user)
                 val intent = Intent(this, MainActivity::class.java)

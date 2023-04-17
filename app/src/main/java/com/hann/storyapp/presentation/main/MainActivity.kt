@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,12 +41,19 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.state.observe(this){
             if (it.isLoading){
-                Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                binding.shimmerLayoutMain.visibility = View.VISIBLE
+                binding.shimmerLayoutMain.startShimmer()
+                binding.rvStory.visibility = View.GONE
             }
             if (it.error.isNotBlank()){
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                binding.rvStory.visibility = View.GONE
+                binding.shimmerLayoutMain.visibility = View.GONE
+                binding.viewErrorMain.root.visibility = View.VISIBLE
             }
             if (it.story.isNotEmpty()){
+                binding.shimmerLayoutMain.stopShimmer()
+                binding.shimmerLayoutMain.visibility = View.GONE
+                binding.rvStory.visibility = View.VISIBLE
                 storyAdapter.setData(it.story)
             }
         }
