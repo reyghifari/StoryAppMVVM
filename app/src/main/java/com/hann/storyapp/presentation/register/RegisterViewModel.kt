@@ -23,15 +23,12 @@ class RegisterViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
                 result ->
                 when(result){
                     is Resource.Loading -> {
-                        Log.d("Register ViewModel Load", result.data.toString())
                         _state.value = RegisterState(isLoading = true)
                     }
                     is Resource.Error -> {
-                        Log.d("Register ViewModel Load", result.data.toString())
                         _state.value = RegisterState(error = result.message ?: "Failed create an account")
                     }
                     is Resource.Success -> {
-                        Log.d("Register ViewModel Load", result.data.toString())
                         _state.value = result.data?.let { RegisterState(success = it.message) }
                     }
                 }

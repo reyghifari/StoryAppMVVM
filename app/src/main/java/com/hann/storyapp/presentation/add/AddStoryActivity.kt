@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -54,12 +55,14 @@ class AddStoryActivity : AppCompatActivity() {
 
         addStoryViewModel.state.observe(this){
             if (it.isLoading){
-                Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.VISIBLE
             }
             if (it.error.isNotBlank()){
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(this, "Error..", Toast.LENGTH_SHORT).show()
             }
             if (it.success.isNotEmpty()){
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(this, "Upload Story Berhasil", Toast.LENGTH_SHORT).show()
                 finish()
             }

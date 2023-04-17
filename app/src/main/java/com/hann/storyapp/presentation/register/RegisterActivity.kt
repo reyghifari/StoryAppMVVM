@@ -39,19 +39,23 @@ class RegisterActivity : AppCompatActivity() {
 
         registerViewModel.state.observe(this){
             if (it.isLoading){
-                Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.VISIBLE
             }
             if (it.error.isNotBlank()){
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(this, "Error..", Toast.LENGTH_SHORT).show()
             }
             if (it.success.isNotEmpty()){
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(this, "Registrasi Berhasil", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
         binding.registBtn.setOnClickListener {
             registerUser()
         }
+
         binding.login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

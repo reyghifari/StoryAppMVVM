@@ -10,7 +10,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface StoryUseCase {
-
     fun registerUser(username :String, email: String, password: String): Flow<Resource<RegisterResponse>>
 
     fun loginUser(email: String, password: String): Flow<Resource<LoginResult>>
