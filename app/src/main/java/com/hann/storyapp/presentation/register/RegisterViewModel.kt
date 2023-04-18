@@ -1,15 +1,11 @@
 package com.hann.storyapp.presentation.register
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hann.storyapp.data.Resource
-import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.domain.usecase.StoryUseCase
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

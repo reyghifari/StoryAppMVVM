@@ -1,15 +1,11 @@
 package com.hann.storyapp.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.domain.usecase.StoryUseCase
 import com.hann.storyapp.ui.preference.UserPreference
 import com.hann.storyapp.utils.Constants
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

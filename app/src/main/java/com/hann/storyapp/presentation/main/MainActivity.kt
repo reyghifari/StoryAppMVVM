@@ -3,10 +3,7 @@ package com.hann.storyapp.presentation.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hann.storyapp.databinding.ActivityMainBinding
 import com.hann.storyapp.domain.model.User

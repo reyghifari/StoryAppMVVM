@@ -17,6 +17,7 @@
             android:id="@+id/image_photo"
             android:layout_width="match_parent"
             android:background="#7F000000"
+            android:contentDescription="@string/image_placeholder_photo"
             android:layout_height="200dp"
             android:scaleType="centerCrop"/>
 

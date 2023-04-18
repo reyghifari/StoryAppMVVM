@@ -1,11 +1,6 @@
 package com.hann.storyapp.data
 
-import android.content.Context
 import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.hann.storyapp.data.remote.RemoteDataSource
 import com.hann.storyapp.data.remote.network.ApiResponse
 import com.hann.storyapp.data.remote.response.AddStoryResponse
@@ -13,7 +8,6 @@ import com.hann.storyapp.data.remote.response.LoginResult
 import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.domain.model.Story
 import com.hann.storyapp.domain.repository.IStoryRepository
-import com.hann.storyapp.utils.AppExecutors
 import com.hann.storyapp.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -25,7 +19,6 @@ import java.io.IOException
 
 class StoryRepository constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val appExecutors : AppExecutors,
 ) : IStoryRepository{
 
     override fun registerUser(username: String, email: String, password: String): Flow<Resource<RegisterResponse>> = flow {

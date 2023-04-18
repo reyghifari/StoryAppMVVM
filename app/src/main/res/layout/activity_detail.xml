@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff">
@@ -17,7 +16,7 @@
             android:layout_height="250dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent"       android:contentDescription="@string/image_detail"
             app:srcCompat="@drawable/bannername" />
 
         <ImageView
@@ -48,7 +47,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:maxLines="3"
-                android:text="Nama"
+                android:text="@string/nama"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,11 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Created At"
+                android:text="@string/created_at"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"       android:contentDescription="@string/image_detail_back"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_detail" />
 
             <ImageView
@@ -72,7 +71,7 @@
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/calendar"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_date_detail"
-                app:layout_constraintEnd_toStartOf="@+id/tv_date_detail"
+                app:layout_constraintEnd_toStartOf="@+id/tv_date_detail"           android:contentDescription="@string/icon_realease_date"
                 app:layout_constraintTop_toTopOf="@+id/tv_date_detail" />
 
             <ImageView
@@ -95,7 +94,7 @@
                 android:padding="16dp"
                 android:lineSpacingExtra="8dp"
                 android:justificationMode="inter_word"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat neque at metus pulvinar, non blandit nisl fringilla. Nulla facilisi. Sed suscipit ligula non est feugiat malesuada"
+                android:text="@string/tanggal"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
 

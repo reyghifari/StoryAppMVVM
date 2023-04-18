@@ -17,12 +17,10 @@ import com.hann.storyapp.presentation.login.LoginViewModel
 import com.hann.storyapp.presentation.main.MainViewModel
 import com.hann.storyapp.presentation.register.RegisterViewModel
 import com.hann.storyapp.ui.preference.UserPreference
-import com.hann.storyapp.utils.AppExecutors
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.scope.get
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -56,8 +54,7 @@ val networkModule = module {
 
 val repositoryModule = module {
     single { RemoteDataSource(get()) }
-    factory { AppExecutors() }
-    single<IStoryRepository> { StoryRepository(get(), get()) }
+    single<IStoryRepository> { StoryRepository(get()) }
 }
 
 val useCaseModule = module {

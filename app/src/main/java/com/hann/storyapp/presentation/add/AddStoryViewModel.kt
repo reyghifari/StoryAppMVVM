@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.domain.usecase.StoryUseCase
-import com.hann.storyapp.presentation.register.RegisterState
 import com.hann.storyapp.ui.preference.UserPreference
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
