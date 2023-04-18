@@ -39,7 +39,7 @@
         app:boxStrokeWidth="0dp">
 
         <com.hann.storyapp.ui.customview.EmailEditText
-            android:id="@+id/email_edit_login"
+            android:id="@+id/emailEditLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -58,7 +58,7 @@
         app:boxStrokeWidth="0dp">
 
         <com.hann.storyapp.ui.customview.PasswordEditText
-            android:id="@+id/password_edit_login"
+            android:id="@+id/passwordEditLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
            />

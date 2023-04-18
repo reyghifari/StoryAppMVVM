@@ -17,13 +17,13 @@
         android:id="@+id/ivLogout"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:contentDescription="@string/logout"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
         android:src="@drawable/logout" />
 
 
     <LinearLayout
-        android:id="@+id/linear_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/ivAddStory"

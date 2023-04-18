@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/addimage"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/preview_image" />
 
     <Button
         android:id="@+id/btn_camera"
@@ -48,7 +48,7 @@
         tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tv_description_upload"
+            android:id="@+id/tvDescriptionUpload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

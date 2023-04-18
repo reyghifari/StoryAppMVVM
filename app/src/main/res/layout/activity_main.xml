@@ -25,13 +25,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_story"
+        android:id="@+id/rvStory"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_layout_main"
+        android:id="@+id/shimmerLayoutMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayout"
@@ -52,7 +52,7 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <include
-        android:id="@+id/view_error_main"
+        android:id="@+id/viewErrorMain"
         layout="@layout/view_error"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

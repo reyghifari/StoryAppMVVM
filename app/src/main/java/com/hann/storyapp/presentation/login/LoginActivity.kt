@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
             repeatMode = ObjectAnimator.REVERSE
         }.start()
 
-        val intro = ObjectAnimator.ofFloat(binding.textView6, View.ALPHA, 1f).setDuration(3500)
+        val intro = ObjectAnimator.ofFloat(binding.textView6, View.ALPHA, 1f).setDuration(2000)
         val email = ObjectAnimator.ofFloat(binding.emailInputLayout, View.ALPHA, 1f).setDuration(500)
         val password = ObjectAnimator.ofFloat(binding.passwordInputLayout, View.ALPHA, 1f).setDuration(500)
         val button = ObjectAnimator.ofFloat(binding.loginBtn, View.ALPHA, 1f).setDuration(500)
