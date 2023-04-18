@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityLoginBinding
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.presentation.main.MainActivity
@@ -54,11 +55,11 @@ class LoginActivity : AppCompatActivity() {
             }
             if (it.error.isNotBlank()){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, "Gagal Login...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_valid), Toast.LENGTH_SHORT).show()
             }
             if (it.success?.name?.isNotEmpty() == true){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, it.success.name + " berhasil login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
                 val user = User(name = it.success.name, token = it.success.token, isLogin = true)
                 loginViewModel.saveUser(user)
                 val intent = Intent(this, MainActivity::class.java)

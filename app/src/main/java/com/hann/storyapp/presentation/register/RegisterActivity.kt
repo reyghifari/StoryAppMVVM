@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityRegisterBinding
 import com.hann.storyapp.presentation.login.LoginActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,11 +37,11 @@ class RegisterActivity : AppCompatActivity() {
             }
             if (it.error.isNotBlank()){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, "Error..", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.data_valid), Toast.LENGTH_SHORT).show()
             }
             if (it.success.isNotEmpty()){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, "Registrasi Berhasil", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.success_register), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

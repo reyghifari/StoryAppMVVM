@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.utils.DataMapper
@@ -38,7 +39,7 @@ class AddStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = "Upload Story"
+        supportActionBar?.title = getString(R.string.upload_story)
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -58,11 +59,11 @@ class AddStoryActivity : AppCompatActivity() {
             }
             if (it.error.isNotBlank()){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, "Error..", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.failed_upload_story), Toast.LENGTH_SHORT).show()
             }
             if (it.success.isNotEmpty()){
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, "Upload Story Success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.success_upload_story), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -90,7 +91,7 @@ class AddStoryActivity : AppCompatActivity() {
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
+        val chooser = Intent.createChooser(intent, getString(R.string.choose_picture))
         launcherIntentGallery.launch(chooser)
     }
 
@@ -146,7 +147,7 @@ class AddStoryActivity : AppCompatActivity() {
             if (!allPermissionsGranted()) {
                 Toast.makeText(
                     this,
-                    "Tidak mendapatkan permission.",
+                    getString(R.string.no_permission),
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()

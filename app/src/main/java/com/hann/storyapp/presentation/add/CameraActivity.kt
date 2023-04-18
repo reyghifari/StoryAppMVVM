@@ -13,6 +13,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityCameraBinding
 import com.hann.storyapp.utils.DataMapper
 
@@ -54,7 +55,7 @@ class CameraActivity : AppCompatActivity() {
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
                         this@CameraActivity,
-                        "Gagal mengambil gambar.",
+                        getString(R.string.failed_take_picture),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -96,7 +97,7 @@ class CameraActivity : AppCompatActivity() {
             } catch (exc: Exception) {
                 Toast.makeText(
                     this@CameraActivity,
-                    "Gagal memunculkan kamera.",
+                    getString(R.string.failed_show_picture),
                     Toast.LENGTH_SHORT
                 ).show()
             }

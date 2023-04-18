@@ -31,4 +31,14 @@
     <string name="logout">Logout</string>
     <string name="image_back">Image Back</string>
     <string name="line">Line</string>
+    <string name="data_valid">Tolong Isi Data Yang Valid</string>
+    <string name="success_register">Registrasi Success</string>
+    <string name="login_valid">Gagal Login Isi Data dengan Valid</string>
+    <string name="success_login">Berhasil login</string>
+    <string name="failed_take_picture">Gagal mengambil gambar.</string>
+    <string name="failed_show_picture">Gagal memunculkan kamera.</string>
+    <string name="choose_picture">Choose a Picture</string>
+    <string name="no_permission">Tidak mendapatkan permission.</string>
+    <string name="success_upload_story">Upload Story Success</string>
+    <string name="failed_upload_story">Failed Uploading Story</string>
 </resources>
