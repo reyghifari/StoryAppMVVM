@@ -85,6 +85,27 @@ class StoryRepository constructor(
         }
     }
 
+    override fun getAllStoriesMap(location: Int, token: String): Flow<Resource<List<Story>>> = flow {
+        try {
+            emit(Resource.Loading())
+            when(val listStory = remoteDataSource.getAllStoriesMap(location,token).first()){
+                is ApiResponse.Success -> {
+                    val data = DataMapper.mapResponsesToDomain(listStory.data)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> emit(Resource.Error("Data not found"))
+                is ApiResponse.Error -> emit(Resource.Error(listStory.errorMessage))
+            }
+
+        }catch (e: HttpException){
+            emit(
+                Resource.Error(e.localizedMessage ?: "An unexpected Error Occurred")
+            )
+        }catch (e: IOException){
+            emit(Resource.Error("Couldn't reach server. Check your internet server"))
+        }
+    }
+
     override fun uploadStories(
         file: MultipartBody.Part,
         description: RequestBody,

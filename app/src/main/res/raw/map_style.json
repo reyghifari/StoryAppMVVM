@@ -1,0 +1,18 @@
+[
+  {
+    "featureType": "road.highway",
+    "stylers": [
+      {
+        "color": "#ee1b1b"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "stylers": [
+      {
+        "color": "#1b93ee"
+      }
+    ]
+  }
+]

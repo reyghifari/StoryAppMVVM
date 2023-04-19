@@ -1,6 +1,7 @@
 package com.hann.storyapp.data.remote.network
 
 
+import android.location.Location
 import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResponse
 import com.hann.storyapp.data.remote.response.RegisterResponse
@@ -39,5 +40,11 @@ interface ApiService {
         @Part("description") description: RequestBody,
         @Header("Authorization") token: String
     ) : AddStoryResponse
+
+    @GET("stories")
+    suspend fun getAllStoriesMap(
+        @Query("location") location : Int,
+        @Header("Authorization") token: String
+    ): StoryResponse
 
 }

@@ -43,4 +43,8 @@
     <string name="success_upload_story">Unggah Cerita Sukses</string>
     <string name="failed_upload_story">Unggah Cerita Gagal</string>
     <string name="setting">Setting Bahasa</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satelit</string>
+    <string name="terrain_type">Medan</string>
+    <string name="hybrid_type">Hibrida</string>
 </resources>

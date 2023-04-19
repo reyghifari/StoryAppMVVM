@@ -67,6 +67,23 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getAllStoriesMap(location: Int, token : String): Flow<ApiResponse<List<StoryItem>>> {
+        return flow {
+            try {
+                val response = apiService.getAllStoriesMap(location,"Bearer $token")
+                val dataArray = response.listStory
+                if (dataArray.isNotEmpty()) {
+                    emit(ApiResponse.Success(dataArray))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            }catch (e:Exception){
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("Remote Data Source", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun uploadImage(file : MultipartBody.Part, description: RequestBody, token: String): Flow<ApiResponse<AddStoryResponse>> {
         return flow {
             try {

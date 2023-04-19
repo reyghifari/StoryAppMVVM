@@ -15,6 +15,7 @@ import com.hann.storyapp.presentation.add.AddStoryViewModel
 import com.hann.storyapp.presentation.detail.DetailViewModel
 import com.hann.storyapp.presentation.login.LoginViewModel
 import com.hann.storyapp.presentation.main.MainViewModel
+import com.hann.storyapp.presentation.map.MapViewModel
 import com.hann.storyapp.presentation.register.RegisterViewModel
 import com.hann.storyapp.ui.preference.UserPreference
 import okhttp3.OkHttpClient
@@ -84,6 +85,9 @@ val viewModelModule = module {
     }
     viewModel {
         DetailViewModel(get())
+    }
+    viewModel {
+        MapViewModel(get(), get())
     }
     viewModel {
         AddStoryViewModel(get(), get())

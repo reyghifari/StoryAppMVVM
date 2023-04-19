@@ -11,6 +11,7 @@ import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.presentation.add.AddStoryActivity
 import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
+import com.hann.storyapp.presentation.map.MapActivity
 import com.hann.storyapp.ui.adapter.StoryAdapter
 import com.hann.storyapp.utils.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,6 +62,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.toolbar.ivMaps.setOnClickListener {
+            val intent = Intent(this@MainActivity, MapActivity::class.java)
+            intent.putExtra(Constants.PARAM_TOKEN, user.token)
+            startActivity(intent)
+        }
+
         binding.toolbar.ivLanguage.setOnClickListener {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
@@ -72,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onResume() {
         super.onResume()
         mainViewModel.getAllStories(user.token)

@@ -12,7 +12,6 @@ import okhttp3.RequestBody
 
 class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUseCase {
 
-
     override fun registerUser( username: String, email: String,password: String ): Flow<Resource<RegisterResponse>> {
         return iStoryRepository.registerUser(username, email,password)
     }
@@ -25,6 +24,10 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
         return iStoryRepository.getAllStories(token)
     }
 
+    override fun getAllStoriesMap(location: Int, token: String): Flow<Resource<List<Story>>> {
+        return iStoryRepository.getAllStoriesMap(location, token)
+    }
+
     override fun uploadStories(
         file: MultipartBody.Part,
         description: RequestBody,
@@ -32,5 +35,4 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
     ): Flow<Resource<AddStoryResponse>> {
         return iStoryRepository.uploadStories(file,description,token)
     }
-
 }

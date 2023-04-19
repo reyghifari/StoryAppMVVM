@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MyApplication"
@@ -17,10 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyClTloFPYR-nbniaZF01nPVQJ2uwcxnRWg" />
         <activity
-            android:name=".presentation.add.CameraActivity"
+            android:name=".presentation.map.MapActivity"
             android:theme="@style/Theme.StoryApp"
             android:exported="false" />
+        <activity
+            android:name=".presentation.add.CameraActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StoryApp" />
         <activity
             android:name=".presentation.add.AddStoryActivity"
             android:exported="false"
