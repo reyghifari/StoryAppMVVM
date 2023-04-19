@@ -3,6 +3,7 @@ package com.hann.storyapp.presentation.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hann.storyapp.databinding.ActivityMainBinding
@@ -55,9 +56,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.toolbar.ivAddStory.setOnClickListener {
+        binding.btnFloatAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.toolbar.ivLanguage.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
 
         binding.toolbar.ivLogout.setOnClickListener {

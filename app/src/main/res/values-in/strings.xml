@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="registrasi_akun">Registrasi Akun</string>
+    <string name="intro_login">Sudah siap menjelajah? Login Untuk Memulai</string>
+    <string name="app_icon">App Icon</string>
+    <string name="something_wrong">Ada yang salah…</string>
+    <string name="capture_image">Ambil Gambar</string>
+    <string name="switch_camera">Ubah Kamera</string>
+    <string name="image_detail">Detail Gambar</string>
+    <string name="image_detail_back">Detail Gambar Kembali</string>
+    <string name="icon_realease_date">Icon Rilis Tanggal</string>
+    <string name="image_register">Gambar Register</string>
+    <string name="image_layout_story">Gambar Layout Story</string>
+    <string name="image_placeholder_photo">Gambar Placeholder Photo</string>
+    <string name="image_add_story">Tambah Gambar Cerita</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload_story">Unggah Cerita</string>
+    <string name="nama">Nama</string>
+    <string name="created_at">Dibuat pada</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="halo">Halo,</string>
+    <string name="name">Nama</string>
+    <string name="create_at">Dibuat pada</string>
+    <string name="registrasi_baru">Registrasi Pengguna Baru</string>
+    <string name="hint_nama">Masukan Nama Anda</string>
+    <string name="hint_email">Masukan Email</string>
+    <string name="hint_password">Masukan Password</string>
+    <string name="login_akun">Login Akun</string>
+    <string name="preview_image">Tampilan gambar</string>
+    <string name="logout">Logout</string>
+    <string name="image_back">Gambar kembali</string>
+    <string name="line">Garis</string>
+    <string name="data_valid">Tolong Isi Data Yang Valid</string>
+    <string name="success_register">Registrasi Berhasil</string>
+    <string name="login_valid">Gagal Login Isi Data dengan Valid</string>
+    <string name="success_login">Berhasil login</string>
+    <string name="failed_take_picture">Gagal mengambil gambar.</string>
+    <string name="failed_show_picture">Gagal memunculkan kamera.</string>
+    <string name="choose_picture">Pilih gambar</string>
+    <string name="no_permission">Tidak mendapatkan permission.</string>
+    <string name="success_upload_story">Unggah Cerita Sukses</string>
+    <string name="failed_upload_story">Unggah Cerita Gagal</string>
+    <string name="setting">Setting Bahasa</string>
+</resources>

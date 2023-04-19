@@ -30,6 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_float_add"
+        android:src="@drawable/addimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/image_add_story" />
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayoutMain"
         android:layout_width="match_parent"

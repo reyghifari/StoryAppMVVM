@@ -4,14 +4,16 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+
     <ImageView
-        android:id="@+id/ivAddStory"
+        android:id="@+id/ivLanguage"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/image_add_story"
-        android:src="@drawable/addimage" />
+        android:layout_toStartOf="@+id/ivLogout"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/setting"
+        android:src="@drawable/ic_language" />
 
     <ImageView
         android:id="@+id/ivLogout"
@@ -22,13 +24,12 @@
         android:layout_centerInParent="true"
         android:src="@drawable/logout" />
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/ivAddStory"
+        android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="16dp"
         android:orientation="horizontal">
 
         <TextView
