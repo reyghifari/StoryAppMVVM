@@ -17,18 +17,28 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+
     }
 
     buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
         debug{
             buildConfigField "String","BASE_URL","\"https://story-api.dicoding.dev/v1/\""
+            buildConfigField "String", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
+            resValue "string", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String","BASE_URL","\"https://story-api.dicoding.dev/v1/\""
+            buildConfigField "String", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
+            resValue "string", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -44,7 +54,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

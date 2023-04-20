@@ -16,6 +16,7 @@ import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.utils.DataMapper
+import com.hann.storyapp.utils.DataMapper.reduceFileImage
 import com.hann.storyapp.utils.DataMapper.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -102,7 +103,8 @@ class AddStoryActivity : AppCompatActivity() {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
                 val myFile = uriToFile(uri, this@AddStoryActivity)
-                val requestImageFile = myFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val reduce = reduceFileImage(myFile)
+                val requestImageFile = reduce.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 multipartBody =  MultipartBody.Part.createFormData("photo", "photo", requestImageFile)
                 status = true
                 binding.previewImage.setImageURI(uri)
@@ -128,10 +130,11 @@ class AddStoryActivity : AppCompatActivity() {
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
             myFile?.let { file ->
                 DataMapper.rotateFile(file, isBackCamera)
-                val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val reduceFile = reduceFileImage(file)
+                val requestImageFile = reduceFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 multipartBody =  MultipartBody.Part.createFormData("photo", "photo", requestImageFile)
                 status = true
-                binding.previewImage.setImageBitmap(BitmapFactory.decodeFile(file.path))
+                binding.previewImage.setImageBitmap(BitmapFactory.decodeFile(reduceFile.path))
             }
         }
     }

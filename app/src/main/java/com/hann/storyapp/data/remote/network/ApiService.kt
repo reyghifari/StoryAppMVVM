@@ -1,7 +1,6 @@
 package com.hann.storyapp.data.remote.network
 
 
-import android.location.Location
 import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResponse
 import com.hann.storyapp.data.remote.response.RegisterResponse

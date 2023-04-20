@@ -12,7 +12,6 @@ import com.hann.storyapp.domain.repository.IStoryRepository
 import com.hann.storyapp.domain.usecase.StoryInteractor
 import com.hann.storyapp.domain.usecase.StoryUseCase
 import com.hann.storyapp.presentation.add.AddStoryViewModel
-import com.hann.storyapp.presentation.detail.DetailViewModel
 import com.hann.storyapp.presentation.login.LoginViewModel
 import com.hann.storyapp.presentation.main.MainViewModel
 import com.hann.storyapp.presentation.map.MapViewModel
@@ -82,9 +81,6 @@ val viewModelModule = module {
     }
     viewModel {
         MainViewModel(get(), get(), get())
-    }
-    viewModel {
-        DetailViewModel(get())
     }
     viewModel {
         MapViewModel(get(), get())

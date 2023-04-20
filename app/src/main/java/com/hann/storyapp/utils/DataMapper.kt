@@ -11,15 +11,15 @@ import android.os.Environment
 import com.hann.storyapp.R
 import com.hann.storyapp.data.remote.response.StoryItem
 import com.hann.storyapp.domain.model.Story
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 object DataMapper {
+
+    private const val MAXIMAL_SIZE = 1000000
+    private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
     fun mapResponsesToDomain(input: List<StoryItem>): List<Story> {
         val storyList = ArrayList<Story>()
@@ -37,9 +37,6 @@ object DataMapper {
         }
         return storyList
     }
-
-
-    private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
     val timeStamp: String = SimpleDateFormat(
         FILENAME_FORMAT,
@@ -89,6 +86,21 @@ object DataMapper {
         inputStream.close()
 
         return myFile
+    }
+
+    fun reduceFileImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        var compressQuality = 100
+        var streamLength: Int
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            compressQuality -= 5
+        } while (streamLength > MAXIMAL_SIZE)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        return file
     }
 
 }
