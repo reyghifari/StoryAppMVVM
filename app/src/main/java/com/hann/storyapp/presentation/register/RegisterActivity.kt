@@ -87,15 +87,13 @@ class RegisterActivity : AppCompatActivity() {
             binding.passwordEditRegist.text.toString())
     }
 
-    private fun updateRegisterButtonState() {
-        val fields = arrayOf(binding.nameEditRegist.text, binding.emailEditRegist.text, binding.passwordEditRegist.text)
-        binding.registBtn.isEnabled = fields.all { !it.isNullOrEmpty() }
-    }
-
     private fun createTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { updateRegisterButtonState() }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val fields = arrayOf(binding.nameEditRegist.text, binding.emailEditRegist.text, binding.passwordEditRegist.text)
+                binding.registBtn.isEnabled = fields.all { !it.isNullOrEmpty() }
+            }
             override fun afterTextChanged(p0: Editable?) { }
         }
     }

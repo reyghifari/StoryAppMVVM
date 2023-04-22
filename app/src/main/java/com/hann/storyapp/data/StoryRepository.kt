@@ -1,17 +1,19 @@
 package com.hann.storyapp.data
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
+import androidx.paging.*
+import com.hann.storyapp.data.local.LocalDataSource
 import com.hann.storyapp.data.remote.RemoteDataSource
 import com.hann.storyapp.data.remote.network.ApiResponse
+import com.hann.storyapp.data.remote.network.ApiService
 import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResult
 import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.domain.model.Story
 import com.hann.storyapp.domain.repository.IStoryRepository
 import com.hann.storyapp.utils.DataMapper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
@@ -19,6 +21,8 @@ import java.io.IOException
 
 class StoryRepository constructor(
     private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val apiService: ApiService
 ) : IStoryRepository{
 
     override fun registerUser(username: String, email: String, password: String): Flow<Resource<RegisterResponse>> = flow {
@@ -26,7 +30,6 @@ class StoryRepository constructor(
             emit(Resource.Loading())
             when(val register = remoteDataSource.registerUser(username,email,password).first()){
                 is ApiResponse.Success -> {
-                    Log.d("Register Repostiory", register.data.toString())
                     emit(Resource.Success(register.data))
                 }
                 is ApiResponse.Empty -> emit(Resource.Error("Register not found"))
@@ -42,6 +45,8 @@ class StoryRepository constructor(
             emit(Resource.Error("Couldn't reach server. Check your internet server"))
         }
     }
+
+
 
     override fun loginUser(email: String, password: String): Flow<Resource<LoginResult>> = flow {
         try {
@@ -75,7 +80,6 @@ class StoryRepository constructor(
                 is ApiResponse.Empty -> emit(Resource.Error("User not found"))
                 is ApiResponse.Error -> emit(Resource.Error(listStory.errorMessage))
             }
-
         }catch (e: HttpException){
             emit(
                 Resource.Error(e.localizedMessage ?: "An unexpected Error Occurred")
@@ -84,6 +88,22 @@ class StoryRepository constructor(
             emit(Resource.Error("Couldn't reach server. Check your internet server"))
         }
     }
+
+    override fun getAllStoriesLocation(token: String): Flow<PagingData<Story>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
+            pagingSourceFactory = {
+                localDataSource.getAllStory()
+            }
+        ).flow.flatMapConcat { pagingData ->
+            flow { emit(pagingData) }
+        }
+    }
+
 
     override fun getAllStoriesMap(location: Int, token: String): Flow<Resource<List<Story>>> = flow {
         try {

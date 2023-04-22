@@ -106,15 +106,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateLoginButtonState() {
-        val fields = arrayOf( binding.emailEditLogin.text, binding.passwordEditLogin.text)
-        binding.loginBtn.isEnabled = fields.all { !it.isNullOrEmpty() }
-    }
-
     private fun createTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { updateLoginButtonState() }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val fields = arrayOf( binding.emailEditLogin.text, binding.passwordEditLogin.text)
+                binding.loginBtn.isEnabled = fields.all { !it.isNullOrEmpty() }
+            }
             override fun afterTextChanged(p0: Editable?) { }
         }
     }

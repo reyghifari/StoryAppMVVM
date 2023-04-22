@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hann.storyapp.databinding.ActivityMainBinding
 import com.hann.storyapp.domain.model.User
@@ -12,15 +13,17 @@ import com.hann.storyapp.presentation.add.AddStoryActivity
 import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
 import com.hann.storyapp.presentation.map.MapActivity
+import com.hann.storyapp.ui.adapter.LoadingStateAdapter
 import com.hann.storyapp.ui.adapter.StoryAdapter
+import com.hann.storyapp.ui.adapter.StoryPagingAdapter
 import com.hann.storyapp.utils.Constants
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModel()
-    private lateinit var storyAdapter: StoryAdapter
     private lateinit var binding : ActivityMainBinding
     private lateinit var user : User
 
@@ -31,31 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        initRecyclerView()
-
         mainViewModel.getUser().observe(this){
             user = it
             binding.toolbar.tvName.text = it.name
         }
 
-        mainViewModel.state.observe(this){
-            if (it.isLoading){
-                binding.shimmerLayoutMain.visibility = View.VISIBLE
-                binding.shimmerLayoutMain.startShimmer()
-                binding.rvStory.visibility = View.GONE
-            }
-            if (it.error.isNotBlank()){
-                binding.rvStory.visibility = View.GONE
-                binding.shimmerLayoutMain.visibility = View.GONE
-                binding.viewErrorMain.root.visibility = View.VISIBLE
-            }
-            if (it.story.isNotEmpty()){
-                binding.shimmerLayoutMain.stopShimmer()
-                binding.shimmerLayoutMain.visibility = View.GONE
-                binding.rvStory.visibility = View.VISIBLE
-                storyAdapter.setData(it.story)
-            }
-        }
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+
+        getData()
 
         binding.btnFloatAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
@@ -80,20 +66,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getData() {
+        val adapter = StoryPagingAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        adapter.onItemClick = {
+            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+            intent.putExtra(Constants.EXTRA_STORY, it)
+            startActivity(intent)
+        }
+        mainViewModel.story.observe(this){
+            adapter.submitData(lifecycle, it)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         mainViewModel.getAllStories(user.token)
     }
 
-    private fun initRecyclerView() {
-        storyAdapter = StoryAdapter()
-        binding.rvStory.layoutManager = LinearLayoutManager(this@MainActivity)
-        binding.rvStory.adapter = storyAdapter
-        binding.rvStory.setHasFixedSize(false)
-        storyAdapter.onItemClick = {
-            val intent = Intent(this@MainActivity, DetailActivity::class.java)
-            intent.putExtra(Constants.EXTRA_STORY, it)
-            startActivity(intent)
-        }
-    }
 }

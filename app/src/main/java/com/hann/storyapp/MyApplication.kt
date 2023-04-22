@@ -15,6 +15,7 @@ class MyApplication : Application() {
             androidContext(this@MyApplication)
             modules(
                 listOf(
+                    databaseModule,
                     networkModule,
                     repositoryModule,
                     useCaseModule,

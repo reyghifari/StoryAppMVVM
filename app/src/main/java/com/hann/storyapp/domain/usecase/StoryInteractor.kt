@@ -1,5 +1,7 @@
 package com.hann.storyapp.domain.usecase
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResult
@@ -22,6 +24,10 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
 
     override fun getAllStories(token: String): Flow<Resource<List<Story>>> {
         return iStoryRepository.getAllStories(token)
+    }
+
+    override fun getAllStoriesLocation(token: String): Flow<PagingData<Story>> {
+        return iStoryRepository.getAllStoriesLocation(token)
     }
 
     override fun getAllStoriesMap(location: Int, token: String): Flow<Resource<List<Story>>> {

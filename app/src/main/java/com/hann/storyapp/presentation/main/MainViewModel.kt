@@ -1,7 +1,9 @@
 package com.hann.storyapp.presentation.main
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
 import com.hann.storyapp.data.Resource
+import com.hann.storyapp.domain.model.Story
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.domain.usecase.StoryUseCase
 import com.hann.storyapp.ui.preference.UserPreference
@@ -18,6 +20,11 @@ class MainViewModel(
 
     private val _state = MutableLiveData<MainState>()
     val state : LiveData<MainState> = _state
+
+
+    val story : LiveData<PagingData<Story>> =
+        savedStateHandle.get<String>(Constants.PARAM_TOKEN)
+            ?.let { storyUseCase.getAllStoriesLocation(it).asLiveData() }!!
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_TOKEN)?.let {

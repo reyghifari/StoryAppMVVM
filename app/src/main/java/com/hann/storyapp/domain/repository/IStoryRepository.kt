@@ -1,5 +1,7 @@
 package com.hann.storyapp.domain.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResult
@@ -16,6 +18,8 @@ interface IStoryRepository {
     fun loginUser(email: String, password: String): Flow<Resource<LoginResult>>
 
     fun getAllStories(token :String): Flow<Resource<List<Story>>>
+
+    fun getAllStoriesLocation(token :String): Flow<PagingData<Story>>
 
     fun getAllStoriesMap(location: Int, token :String): Flow<Resource<List<Story>>>
 

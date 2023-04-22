@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.Room
 import com.hann.storyapp.BuildConfig
 import com.hann.storyapp.data.StoryRepository
+import com.hann.storyapp.data.local.LocalDataSource
+import com.hann.storyapp.data.local.database.StoryDatabase
 import com.hann.storyapp.data.remote.RemoteDataSource
 import com.hann.storyapp.data.remote.network.ApiService
 import com.hann.storyapp.domain.repository.IStoryRepository
@@ -26,6 +29,22 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+
+val databaseModule = module {
+    factory {
+        get<StoryDatabase>().storyDao()
+    }
+    factory {
+        get<StoryDatabase>().remoteKeysDao()
+    }
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            StoryDatabase::class.java, "story.db"
+        ).fallbackToDestructiveMigration()
+            .build()
+    }
+}
 
 val networkModule = module {
     single {
@@ -54,7 +73,8 @@ val networkModule = module {
 
 val repositoryModule = module {
     single { RemoteDataSource(get()) }
-    single<IStoryRepository> { StoryRepository(get()) }
+    single { LocalDataSource(get(), get()) }
+    single<IStoryRepository> { StoryRepository(get(),get(), get()) }
 }
 
 val useCaseModule = module {

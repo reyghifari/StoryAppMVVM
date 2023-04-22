@@ -47,4 +47,5 @@
     <string name="satellite_type">Satelit</string>
     <string name="terrain_type">Medan</string>
     <string name="hybrid_type">Hibrida</string>
+    <string name="retry">Ulangi</string>
 </resources>

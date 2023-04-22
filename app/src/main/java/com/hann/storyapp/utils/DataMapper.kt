@@ -21,6 +21,7 @@ object DataMapper {
     private const val MAXIMAL_SIZE = 1000000
     private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
+
     fun mapResponsesToDomain(input: List<StoryItem>): List<Story> {
         val storyList = ArrayList<Story>()
         input.map {
