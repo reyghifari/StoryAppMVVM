@@ -50,10 +50,15 @@ class AddStoryActivity : AppCompatActivity() {
             )
         }
 
+        val latitude = intent.getStringExtra(EXTRA_LATITUDE)
+        val longtitude = intent.getStringExtra(EXTRA_LONGTITUDE)
+
+        binding.latitudeEditText.setText(latitude?.toString() ?: "")
+        binding.longtitudeEditText.setText(longtitude?.toString() ?: "")
+
         addStoryViewModel.getUser().observe(this){
             user = it
         }
-
         addStoryViewModel.state.observe(this){
             if (it.isLoading){
                 binding.progressBar.visibility = View.VISIBLE
@@ -77,6 +82,10 @@ class AddStoryActivity : AppCompatActivity() {
         }
         binding.btnUpload.setOnClickListener {
             uploadStory()
+        }
+        binding.btnLocation.setOnClickListener {
+            val intent = Intent(this, AddMapActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -166,5 +175,7 @@ class AddStoryActivity : AppCompatActivity() {
         const val CAMERA_X_RESULT = 200
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        const val EXTRA_LATITUDE = "extra_latitude"
+        const val EXTRA_LONGTITUDE = "extra_longtitude"
     }
 }

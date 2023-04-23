@@ -7,6 +7,8 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -18,13 +20,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/API_KEY_MAP"/>
         <activity
-            android:name=".presentation.map.MapActivity"
+            android:name=".presentation.add.AddMapActivity"
             android:theme="@style/Theme.StoryApp"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/API_KEY_MAP" />
+
+        <activity
+            android:name=".presentation.map.MapActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StoryApp" />
         <activity
             android:name=".presentation.add.CameraActivity"
             android:exported="false"

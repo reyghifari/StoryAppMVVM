@@ -47,4 +47,7 @@
     <string name="terrain_type">Terrain</string>
     <string name="hybrid_type">Hybrid</string>
     <string name="retry">Retry</string>
+    <string name="latitude">Latitude</string>
+    <string name="longtitude">Longtitude</string>
+    <string name="ambil_dari_map">Ambil dari Map</string>
 </resources>
