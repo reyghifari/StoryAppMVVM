@@ -13,11 +13,14 @@ import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.domain.model.Story
 import com.hann.storyapp.domain.repository.IStoryRepository
 import com.hann.storyapp.utils.DataMapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import okhttp3.Dispatcher
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.UnknownHostException
 
 class StoryRepository constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -89,19 +92,39 @@ class StoryRepository constructor(
         }
     }
 
-    override fun getAllStoriesLocation(token: String): Flow<PagingData<Story>> {
-        @OptIn(ExperimentalPagingApi::class)
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
-            pagingSourceFactory = {
-                localDataSource.getAllStory()
+    //  @OptIn(ExperimentalPagingApi::class)
+    //        return Pager(
+    //            config = PagingConfig(
+    //                pageSize = 5
+    //            ),
+    //            remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
+    //            pagingSourceFactory = {
+    //                localDataSource.getAllStory()
+    //            }
+    //        ).liveData
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAllStoriesLocation(token: String): Flow<Resource<Flow<PagingData<Story>>>>{
+        return flow<Resource<Flow<PagingData<Story>>>> {
+            emit(Resource.Loading())
+            try {
+                // Loading State
+                val pagingData = Pager(
+                    config = PagingConfig(pageSize = 5),
+                    remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
+                    pagingSourceFactory = {
+                        localDataSource.getAllStory()
+                    }
+                ).flow
+                emit(Resource.Success(pagingData))
+            } catch (e: HttpException) {
+                emit(Resource.Error(e.localizedMessage ?: "An unexpected Error Occurred"))
+            } catch (e: IOException) {
+                emit(Resource.Error("Couldn't reach server. Check your internet server"))
+            } catch (e: UnknownHostException) {
+                emit(Resource.Error("Error Cant get Data"))
             }
-        ).flow.flatMapConcat { pagingData ->
-            flow { emit(pagingData) }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
 

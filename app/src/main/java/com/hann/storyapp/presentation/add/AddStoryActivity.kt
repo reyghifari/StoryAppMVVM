@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
 import com.hann.storyapp.domain.model.User
+import com.hann.storyapp.presentation.main.MainActivity
 import com.hann.storyapp.utils.DataMapper
 import com.hann.storyapp.utils.DataMapper.reduceFileImage
 import com.hann.storyapp.utils.DataMapper.uriToFile
@@ -70,6 +71,8 @@ class AddStoryActivity : AppCompatActivity() {
             if (it.success.isNotEmpty()){
                 binding.progressBar.visibility = View.GONE
                 Toast.makeText(this, getString(R.string.success_upload_story), Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@AddStoryActivity, MainActivity::class.java)
+                startActivity(intent)
                 finish()
             }
         }

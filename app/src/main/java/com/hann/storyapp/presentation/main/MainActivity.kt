@@ -14,9 +14,9 @@ import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
 import com.hann.storyapp.presentation.map.MapActivity
 import com.hann.storyapp.ui.adapter.LoadingStateAdapter
-import com.hann.storyapp.ui.adapter.StoryAdapter
 import com.hann.storyapp.ui.adapter.StoryPagingAdapter
 import com.hann.storyapp.utils.Constants
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var binding : ActivityMainBinding
     private lateinit var user : User
+    private lateinit var storyAdapter: StoryPagingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +40,29 @@ class MainActivity : AppCompatActivity() {
             binding.toolbar.tvName.text = it.name
         }
 
-        binding.rvStory.layoutManager = LinearLayoutManager(this)
+        initRecyclerView()
 
-        getData()
+        lifecycleScope.launch {
+            mainViewModel.state.collectLatest {
+                state ->
+                if (state.isLoading){
+                    binding.shimmerLayoutMain.visibility = View.VISIBLE
+                    binding.shimmerLayoutMain.startShimmer()
+                    binding.rvStory.visibility = View.GONE
+                }
+                if (state.isError){
+                    binding.rvStory.visibility = View.GONE
+                    binding.shimmerLayoutMain.visibility = View.GONE
+                    binding.viewErrorMain.root.visibility = View.VISIBLE
+                }
+                if (state.isSuccess){
+                    binding.shimmerLayoutMain.stopShimmer()
+                    binding.shimmerLayoutMain.visibility = View.GONE
+                    binding.rvStory.visibility = View.VISIBLE
+                    storyAdapter.submitData(lifecycle, state.story)
+                }
+            }
+        }
 
         binding.btnFloatAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
@@ -66,26 +87,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getData() {
-        val adapter = StoryPagingAdapter()
-        binding.rvStory.adapter = adapter.withLoadStateFooter(
+    private fun initRecyclerView() {
+        storyAdapter = StoryPagingAdapter()
+        binding.rvStory.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.rvStory.setHasFixedSize(false)
+        binding.rvStory.adapter = storyAdapter
+        binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
-                adapter.retry()
+                storyAdapter.retry()
             }
         )
-        adapter.onItemClick = {
+        storyAdapter.onItemClick = {
             val intent = Intent(this@MainActivity, DetailActivity::class.java)
             intent.putExtra(Constants.EXTRA_STORY, it)
             startActivity(intent)
         }
-        mainViewModel.story.observe(this){
-            adapter.submitData(lifecycle, it)
-        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mainViewModel.getAllStories(user.token)
-    }
+//    private fun getData() {
+//        adapter = StoryPagingAdapter()
+//        binding.rvStory.adapter = adapter.withLoadStateFooter(
+//            footer = LoadingStateAdapter {
+//                adapter.retry()
+//            }
+//        )
+//        adapter.onItemClick = {
+//            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+//            intent.putExtra(Constants.EXTRA_STORY, it)
+//            startActivity(intent)
+//        }
+//        mainViewModel.story.observe(this){
+//            adapter.submitData(lifecycle, it)
+//        }
+//    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        mainViewModel.story.observe(this){
+//            adapter.submitData(lifecycle, it)
+//        }
+//    }
 
 }

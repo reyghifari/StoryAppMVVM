@@ -26,7 +26,7 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
         return iStoryRepository.getAllStories(token)
     }
 
-    override fun getAllStoriesLocation(token: String): Flow<PagingData<Story>> {
+    override fun getAllStoriesLocation(token: String): Flow<Resource<Flow<PagingData<Story>>>> {
         return iStoryRepository.getAllStoriesLocation(token)
     }
 

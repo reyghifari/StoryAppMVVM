@@ -19,7 +19,7 @@ interface IStoryRepository {
 
     fun getAllStories(token :String): Flow<Resource<List<Story>>>
 
-    fun getAllStoriesLocation(token :String): Flow<PagingData<Story>>
+    fun getAllStoriesLocation(token :String): Flow<Resource<Flow<PagingData<Story>>>>
 
     fun getAllStoriesMap(location: Int, token :String): Flow<Resource<List<Story>>>
 
