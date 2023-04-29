@@ -85,10 +85,10 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun uploadImage(file : MultipartBody.Part, description: RequestBody, token: String): Flow<ApiResponse<AddStoryResponse>> {
+    suspend fun uploadImage(file : MultipartBody.Part, description: RequestBody, token: String, lat : RequestBody?, lon: RequestBody?): Flow<ApiResponse<AddStoryResponse>> {
         return flow {
             try {
-                val response = apiService.uploadStory(file = file, description = description, token = "Bearer $token")
+                val response = apiService.uploadStory(file = file, description = description, token = "Bearer $token", lat = lat, long = lon)
                 if (!response.error){
                     Log.d("Upload Image Remote", response.toString())
                     emit(ApiResponse.Success(response))

@@ -19,10 +19,11 @@ interface IStoryRepository {
 
     fun getAllStories(token :String): Flow<Resource<List<Story>>>
 
-    fun getAllStoriesLocation(token :String): Flow<Resource<Flow<PagingData<Story>>>>
+    fun getAllStoriesLocation(token :String):  Flow<PagingData<Story>>
 
     fun getAllStoriesMap(location: Int, token :String): Flow<Resource<List<Story>>>
 
-    fun uploadStories(file : MultipartBody.Part, description: RequestBody, token: String) : Flow<Resource<AddStoryResponse>>
+    fun uploadStories(file : MultipartBody.Part, description: RequestBody, token: String, lat : RequestBody?, lon: RequestBody?)
+    : Flow<Resource<AddStoryResponse>>
 
 }

@@ -7,6 +7,6 @@ data class MainState (
     val isLoading : Boolean = false,
     val story: PagingData<Story> = PagingData.empty(),
     val error: String = "",
+    val isError : Boolean = false,
     val isSuccess : Boolean = false,
-    val isError : Boolean = false
 )

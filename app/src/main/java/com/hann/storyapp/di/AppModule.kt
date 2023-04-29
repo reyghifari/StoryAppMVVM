@@ -7,7 +7,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.hann.storyapp.BuildConfig
 import com.hann.storyapp.data.StoryRepository
-import com.hann.storyapp.data.local.LocalDataSource
 import com.hann.storyapp.data.local.database.StoryDatabase
 import com.hann.storyapp.data.remote.RemoteDataSource
 import com.hann.storyapp.data.remote.network.ApiService
@@ -73,7 +72,6 @@ val networkModule = module {
 
 val repositoryModule = module {
     single { RemoteDataSource(get()) }
-    single { LocalDataSource(get(), get()) }
     single<IStoryRepository> { StoryRepository(get(),get(), get()) }
 }
 

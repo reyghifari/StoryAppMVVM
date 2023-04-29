@@ -12,13 +12,20 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewModelScope
 import com.hann.storyapp.R
+import com.hann.storyapp.data.Resource
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
 import com.hann.storyapp.domain.model.User
 import com.hann.storyapp.presentation.main.MainActivity
 import com.hann.storyapp.utils.DataMapper
 import com.hann.storyapp.utils.DataMapper.reduceFileImage
 import com.hann.storyapp.utils.DataMapper.uriToFile
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -33,7 +40,9 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
     private val addStoryViewModel : AddStoryViewModel by viewModel()
     private lateinit var multipartBody: MultipartBody.Part
-    private lateinit var requestBody : RequestBody
+    private lateinit var description : RequestBody
+    private  var lat : RequestBody? = null
+    private  var lon : RequestBody? = null
     private var status : Boolean = false
     private lateinit var user : User
 
@@ -54,27 +63,11 @@ class AddStoryActivity : AppCompatActivity() {
         val latitude = intent.getStringExtra(EXTRA_LATITUDE)
         val longtitude = intent.getStringExtra(EXTRA_LONGTITUDE)
 
-        binding.latitudeEditText.setText(latitude?.toString() ?: "")
-        binding.longtitudeEditText.setText(longtitude?.toString() ?: "")
+        binding.latitudeEditText.setText(latitude ?: "")
+        binding.longtitudeEditText.setText(longtitude ?: "")
 
         addStoryViewModel.getUser().observe(this){
             user = it
-        }
-        addStoryViewModel.state.observe(this){
-            if (it.isLoading){
-                binding.progressBar.visibility = View.VISIBLE
-            }
-            if (it.error.isNotBlank()){
-                binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, getString(R.string.failed_upload_story), Toast.LENGTH_SHORT).show()
-            }
-            if (it.success.isNotEmpty()){
-                binding.progressBar.visibility = View.GONE
-                Toast.makeText(this, getString(R.string.success_upload_story), Toast.LENGTH_SHORT).show()
-                val intent = Intent(this@AddStoryActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
         }
 
         binding.btnCamera.setOnClickListener {
@@ -84,7 +77,7 @@ class AddStoryActivity : AppCompatActivity() {
             startGallery()
         }
         binding.btnUpload.setOnClickListener {
-            uploadStory()
+            uploadStories()
         }
         binding.btnLocation.setOnClickListener {
             val intent = Intent(this, AddMapActivity::class.java)
@@ -92,11 +85,37 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadStory() {
-        val description = binding.tvDescriptionUpload.text.toString()
-        requestBody = description.toRequestBody("text/plain".toMediaType())
+    private fun uploadStories(){
+        val desc = binding.tvDescriptionUpload.text.toString()
+        val latParam = binding.latitudeEditText.text.toString()
+        val lonParam = binding.longtitudeEditText.text.toString()
+        description = desc.toRequestBody("text/plain".toMediaType())
+
+        if (latParam.isNotEmpty() && lonParam.isNotEmpty()){
+            lat = latParam.toRequestBody("text/plain".toMediaType())
+            lon = lonParam.toRequestBody("text/plain".toMediaType())
+        }
+
         if (status){
-            addStoryViewModel.uploadStories(multipartBody, requestBody, user.token)
+            addStoryViewModel.uploadStory(multipartBody, description, user.token, lat, lon).onEach {
+                result ->
+                when(result){
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(this, getString(R.string.failed_upload_story), Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(this, getString(R.string.success_upload_story), Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@AddStoryActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }.launchIn(CoroutineScope(Dispatchers.Main))
         }
     }
 

@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hann.storyapp.databinding.ActivityMainBinding
 import com.hann.storyapp.domain.model.User
@@ -14,6 +12,7 @@ import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
 import com.hann.storyapp.presentation.map.MapActivity
 import com.hann.storyapp.ui.adapter.LoadingStateAdapter
+import com.hann.storyapp.ui.adapter.StoryAdapter
 import com.hann.storyapp.ui.adapter.StoryPagingAdapter
 import com.hann.storyapp.utils.Constants
 import kotlinx.coroutines.flow.collectLatest
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var binding : ActivityMainBinding
     private lateinit var user : User
-    private lateinit var storyAdapter: StoryPagingAdapter
+    private lateinit var adapter: StoryPagingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,34 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+
         mainViewModel.getUser().observe(this){
             user = it
             binding.toolbar.tvName.text = it.name
         }
 
-        initRecyclerView()
-
-        lifecycleScope.launch {
-            mainViewModel.state.collectLatest {
-                state ->
-                if (state.isLoading){
-                    binding.shimmerLayoutMain.visibility = View.VISIBLE
-                    binding.shimmerLayoutMain.startShimmer()
-                    binding.rvStory.visibility = View.GONE
-                }
-                if (state.isError){
-                    binding.rvStory.visibility = View.GONE
-                    binding.shimmerLayoutMain.visibility = View.GONE
-                    binding.viewErrorMain.root.visibility = View.VISIBLE
-                }
-                if (state.isSuccess){
-                    binding.shimmerLayoutMain.stopShimmer()
-                    binding.shimmerLayoutMain.visibility = View.GONE
-                    binding.rvStory.visibility = View.VISIBLE
-                    storyAdapter.submitData(lifecycle, state.story)
-                }
-            }
-        }
+        getData()
 
         binding.btnFloatAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddStoryActivity::class.java)
@@ -87,45 +66,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initRecyclerView() {
-        storyAdapter = StoryPagingAdapter()
-        binding.rvStory.layoutManager = LinearLayoutManager(this@MainActivity)
-        binding.rvStory.setHasFixedSize(false)
-        binding.rvStory.adapter = storyAdapter
-        binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
+    private fun getData() {
+        adapter = StoryPagingAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
-                storyAdapter.retry()
+                adapter.retry()
             }
         )
-        storyAdapter.onItemClick = {
+
+        adapter.onItemClick = {
             val intent = Intent(this@MainActivity, DetailActivity::class.java)
             intent.putExtra(Constants.EXTRA_STORY, it)
             startActivity(intent)
         }
+
+       val data =  mainViewModel.token
+        mainViewModel.getStory(data).observe(this){
+            adapter.submitData(lifecycle, it)
+        }
     }
 
-//    private fun getData() {
-//        adapter = StoryPagingAdapter()
-//        binding.rvStory.adapter = adapter.withLoadStateFooter(
-//            footer = LoadingStateAdapter {
-//                adapter.retry()
-//            }
-//        )
-//        adapter.onItemClick = {
-//            val intent = Intent(this@MainActivity, DetailActivity::class.java)
-//            intent.putExtra(Constants.EXTRA_STORY, it)
-//            startActivity(intent)
-//        }
-//        mainViewModel.story.observe(this){
-//            adapter.submitData(lifecycle, it)
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
 
-//    override fun onResume() {
-//        super.onResume()
-//        mainViewModel.story.observe(this){
-//            adapter.submitData(lifecycle, it)
-//        }
-//    }
+        mainViewModel.getStory(user.token).observe(this){
+            adapter.submitData(lifecycle, it)
+        }
+        adapter.refresh()
+    }
 
 }

@@ -1,9 +1,8 @@
 package com.hann.storyapp.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asFlow
+import android.util.Log
 import androidx.paging.*
-import com.hann.storyapp.data.local.LocalDataSource
+import com.hann.storyapp.data.local.database.StoryDatabase
 import com.hann.storyapp.data.remote.RemoteDataSource
 import com.hann.storyapp.data.remote.network.ApiResponse
 import com.hann.storyapp.data.remote.network.ApiService
@@ -13,18 +12,16 @@ import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.domain.model.Story
 import com.hann.storyapp.domain.repository.IStoryRepository
 import com.hann.storyapp.utils.DataMapper
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import okhttp3.Dispatcher
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.IOException
-import java.net.UnknownHostException
+
 
 class StoryRepository constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
+    private val database: StoryDatabase,
     private val apiService: ApiService
 ) : IStoryRepository{
 
@@ -92,39 +89,20 @@ class StoryRepository constructor(
         }
     }
 
-    //  @OptIn(ExperimentalPagingApi::class)
-    //        return Pager(
-    //            config = PagingConfig(
-    //                pageSize = 5
-    //            ),
-    //            remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
-    //            pagingSourceFactory = {
-    //                localDataSource.getAllStory()
-    //            }
-    //        ).liveData
 
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getAllStoriesLocation(token: String): Flow<Resource<Flow<PagingData<Story>>>>{
-        return flow<Resource<Flow<PagingData<Story>>>> {
-            emit(Resource.Loading())
-            try {
-                // Loading State
-                val pagingData = Pager(
-                    config = PagingConfig(pageSize = 5),
-                    remoteMediator = StoryRemoteMediator(localDataSource, apiService, token),
-                    pagingSourceFactory = {
-                        localDataSource.getAllStory()
-                    }
-                ).flow
-                emit(Resource.Success(pagingData))
-            } catch (e: HttpException) {
-                emit(Resource.Error(e.localizedMessage ?: "An unexpected Error Occurred"))
-            } catch (e: IOException) {
-                emit(Resource.Error("Couldn't reach server. Check your internet server"))
-            } catch (e: UnknownHostException) {
-                emit(Resource.Error("Error Cant get Data"))
+    override fun getAllStoriesLocation(token: String):  Flow<PagingData<Story>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            remoteMediator = StoryRemoteMediator(
+                database,
+                apiService,
+                token
+            ),
+            pagingSourceFactory = {
+                database.storyDao().getAllStory()
             }
-        }.flowOn(Dispatchers.IO)
+        ).flow
     }
 
 
@@ -152,11 +130,13 @@ class StoryRepository constructor(
     override fun uploadStories(
         file: MultipartBody.Part,
         description: RequestBody,
-        token: String
+        token: String,
+        lat : RequestBody?,
+        lon: RequestBody?
     ): Flow<Resource<AddStoryResponse>> = flow {
         try {
             emit(Resource.Loading())
-            when(val upload = remoteDataSource.uploadImage(file,description,token).first()){
+            when(val upload = remoteDataSource.uploadImage(file,description,token, lat, lon).first()){
                 is ApiResponse.Success -> {
                     emit(Resource.Success(upload.data))
                 }

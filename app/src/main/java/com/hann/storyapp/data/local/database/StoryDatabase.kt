@@ -7,7 +7,7 @@ import com.hann.storyapp.data.local.dao.StoryDao
 import com.hann.storyapp.data.local.entity.RemoteKeys
 import com.hann.storyapp.domain.model.Story
 
-@Database(entities = [Story::class, RemoteKeys::class], version = 1, exportSchema = true)
+@Database(entities = [Story::class, RemoteKeys::class], version = 1, exportSchema = false)
 abstract class StoryDatabase : RoomDatabase() {
 
     abstract fun storyDao() : StoryDao

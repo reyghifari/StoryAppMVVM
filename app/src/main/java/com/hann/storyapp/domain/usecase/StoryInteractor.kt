@@ -26,7 +26,7 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
         return iStoryRepository.getAllStories(token)
     }
 
-    override fun getAllStoriesLocation(token: String): Flow<Resource<Flow<PagingData<Story>>>> {
+    override fun getAllStoriesLocation(token: String):  Flow<PagingData<Story>> {
         return iStoryRepository.getAllStoriesLocation(token)
     }
 
@@ -37,8 +37,10 @@ class StoryInteractor(private val iStoryRepository: IStoryRepository) : StoryUse
     override fun uploadStories(
         file: MultipartBody.Part,
         description: RequestBody,
-        token: String
+        token: String,
+        lat : RequestBody?,
+        lon: RequestBody?
     ): Flow<Resource<AddStoryResponse>> {
-        return iStoryRepository.uploadStories(file,description,token)
+        return iStoryRepository.uploadStories(file,description,token, lat, lon)
     }
 }
