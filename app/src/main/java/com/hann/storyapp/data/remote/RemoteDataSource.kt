@@ -7,6 +7,7 @@ import com.hann.storyapp.data.remote.response.AddStoryResponse
 import com.hann.storyapp.data.remote.response.LoginResult
 import com.hann.storyapp.data.remote.response.RegisterResponse
 import com.hann.storyapp.data.remote.response.StoryItem
+import com.hann.storyapp.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -86,6 +87,7 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
     }
 
     suspend fun uploadImage(file : MultipartBody.Part, description: RequestBody, token: String, lat : RequestBody?, lon: RequestBody?): Flow<ApiResponse<AddStoryResponse>> {
+       wrapEspressoIdlingResource {
         return flow {
             try {
                 val response = apiService.uploadStory(file = file, description = description, token = "Bearer $token", lat = lat, long = lon)
@@ -100,5 +102,6 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
                 Log.e("Remote Data Source", e.toString())
             }
         }.flowOn(Dispatchers.IO)
+       }
     }
 }

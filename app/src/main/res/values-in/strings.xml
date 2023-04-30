@@ -41,11 +41,16 @@
     <string name="choose_picture">Pilih gambar</string>
     <string name="no_permission">Tidak mendapatkan permission.</string>
     <string name="success_upload_story">Unggah Cerita Sukses</string>
-    <string name="failed_upload_story">Unggah Cerita Gagal</string>
+    <string name="failed_upload_story">Unggah Cerita Gagal, Tolong isi Data</string>
     <string name="setting">Setting Bahasa</string>
     <string name="normal_type">Normal</string>
     <string name="satellite_type">Satelit</string>
     <string name="terrain_type">Medan</string>
     <string name="hybrid_type">Hibrida</string>
     <string name="retry">Ulangi</string>
+    <string name="latitude">Latitude(optional)</string>
+    <string name="longtitude">Longtitude(optional)</string>
+    <string name="ambil_dari_map">Ambil dari Map</string>
+    <string name="pin">Pin Map</string>
+    <string name="confirm">Konfirmasi</string>
 </resources>

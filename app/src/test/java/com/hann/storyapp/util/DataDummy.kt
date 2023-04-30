@@ -14,7 +14,7 @@ object DataDummy {
         for (i in 1..10) {
             val fakeStoryItem = Story(
                 id = "$i",
-                name = "name item $i",
+                name = "hn0001",
                 description = "key $i",
                 photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1666969385959_OAqj0s4-.jpg",
                 createdAt = "2022-10-28T15:03:05.963Z",

@@ -12,11 +12,8 @@ import com.hann.storyapp.presentation.detail.DetailActivity
 import com.hann.storyapp.presentation.login.LoginActivity
 import com.hann.storyapp.presentation.map.MapActivity
 import com.hann.storyapp.ui.adapter.LoadingStateAdapter
-import com.hann.storyapp.ui.adapter.StoryAdapter
 import com.hann.storyapp.ui.adapter.StoryPagingAdapter
 import com.hann.storyapp.utils.Constants
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

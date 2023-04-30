@@ -39,29 +39,12 @@ object DataMapper {
         return storyList
     }
 
-    fun mapResponsesToDomainData(input: List<com.hann.storyapp.data.remote.response.Story>): List<Story> {
-        val storyList = ArrayList<Story>()
-        input.map {
-            val story = Story(
-                id = it.id,
-                name = it.name,
-                description = it.description,
-                createdAt = it.createdAt,
-                lat = it.lat,
-                lon = it.lon,
-                photoUrl = it.photoUrl
-            )
-            storyList.add(story)
-        }
-        return storyList
-    }
-
-    val timeStamp: String = SimpleDateFormat(
+    private val timeStamp: String = SimpleDateFormat(
         FILENAME_FORMAT,
         Locale.US
     ).format(System.currentTimeMillis())
 
-    fun createTempFile(context: Context): File {
+    private fun createTempFile(context: Context): File {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
     }

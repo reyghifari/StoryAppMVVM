@@ -23,7 +23,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="8dp"
-                android:text="Konfirmasi" />
+                android:text="@string/confirm" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,6 +40,7 @@
                     android:id="@+id/mapPin"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:contentDescription="@string/pin"
                     android:layout_centerInParent="true"
                     android:src="@drawable/pin"/>
 

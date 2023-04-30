@@ -20,6 +20,7 @@ class AddStoryViewModelTest {
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
+
     @Mock
     private lateinit var addStoryViewModel : AddStoryViewModel
 
@@ -33,10 +34,10 @@ class AddStoryViewModelTest {
 
             val expected = flowOf(Resource.Success(dummyUploadResponse))
 
-            Mockito.`when`( addStoryViewModel.uploadStory(dummyMultipart, dummyDescription ,dummyToken))
+            Mockito.`when`( addStoryViewModel.uploadStory(dummyMultipart, dummyDescription ,dummyToken, null, null))
                 .thenReturn(expected)
 
-            val actual = addStoryViewModel.uploadStory(dummyMultipart, dummyDescription ,dummyToken)
+            val actual = addStoryViewModel.uploadStory(dummyMultipart, dummyDescription ,dummyToken, null, null)
             actual.collect {
                     result ->
                 when(result){
@@ -54,6 +55,6 @@ class AddStoryViewModelTest {
                 }
             }
             Mockito.verify(addStoryViewModel)
-                .uploadStory(dummyMultipart, dummyDescription ,dummyToken)
+                .uploadStory(dummyMultipart, dummyDescription ,dummyToken, null, null)
         }
 }

@@ -1,6 +1,5 @@
 package com.hann.storyapp.data
 
-import android.util.Log
 import androidx.paging.*
 import com.hann.storyapp.data.local.database.StoryDatabase
 import com.hann.storyapp.data.remote.RemoteDataSource
@@ -134,23 +133,24 @@ class StoryRepository constructor(
         lat : RequestBody?,
         lon: RequestBody?
     ): Flow<Resource<AddStoryResponse>> = flow {
-        try {
-            emit(Resource.Loading())
-            when(val upload = remoteDataSource.uploadImage(file,description,token, lat, lon).first()){
-                is ApiResponse.Success -> {
-                    emit(Resource.Success(upload.data))
+            try {
+                emit(Resource.Loading())
+                when (val upload =
+                    remoteDataSource.uploadImage(file, description, token, lat, lon).first()) {
+                    is ApiResponse.Success -> {
+                        emit(Resource.Success(upload.data))
+                    }
+                    is ApiResponse.Empty -> emit(Resource.Error("Upload not found"))
+                    is ApiResponse.Error -> emit(Resource.Error(upload.errorMessage))
                 }
-                is ApiResponse.Empty -> emit(Resource.Error("Upload not found"))
-                is ApiResponse.Error -> emit(Resource.Error(upload.errorMessage))
-            }
-        }catch (e: HttpException){
-            emit(
-                Resource.Error(
-                    e.localizedMessage ?: "An unexpected Error Occurred"
+            } catch (e: HttpException) {
+                emit(
+                    Resource.Error(
+                        e.localizedMessage ?: "An unexpected Error Occurred"
+                    )
                 )
-            )
-        }catch (e: IOException){
-            emit(Resource.Error("Couldn't reach server. Check your internet server"))
-        }
+            } catch (e: IOException) {
+                emit(Resource.Error("Couldn't reach server. Check your internet server"))
+            }
     }
 }

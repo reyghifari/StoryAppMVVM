@@ -87,21 +87,21 @@ class EmailEditText : TextInputEditText, View.OnTouchListener {
                     event.x > warningButtonStart -> isClearButtonClicked = true
                 }
             }
-            if (isClearButtonClicked) {
+            return if (isClearButtonClicked) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         warningButtonImg = ContextCompat.getDrawable(context, R.drawable.baseline_warning_24) as Drawable
                         showWarningButton()
-                        return true
+                        true
                     }
                     MotionEvent.ACTION_UP -> {
                         warningButtonImg = ContextCompat.getDrawable(context, R.drawable.baseline_warning_24) as Drawable
                         error = "Masukan Email Yang Valid"
-                        return true
+                        true
                     }
-                    else -> return false
+                    else -> false
                 }
-            } else return false
+            } else false
         }
         return false
     }

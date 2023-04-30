@@ -63,7 +63,8 @@
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/btn_camera" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_camera"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/longtitudeEditText"
@@ -84,7 +85,8 @@
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/latitudeEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/latitudeEditText"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/btn_location"

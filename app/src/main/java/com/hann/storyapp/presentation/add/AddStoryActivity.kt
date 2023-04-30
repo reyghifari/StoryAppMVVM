@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewModelScope
 import com.hann.storyapp.R
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.databinding.ActivityAddStoryBinding
@@ -23,7 +22,6 @@ import com.hann.storyapp.utils.DataMapper.reduceFileImage
 import com.hann.storyapp.utils.DataMapper.uriToFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType.Companion.toMediaType

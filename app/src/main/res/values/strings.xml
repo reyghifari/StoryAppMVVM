@@ -40,14 +40,16 @@
     <string name="choose_picture">Choose a Picture</string>
     <string name="no_permission">Did not get permissions.</string>
     <string name="success_upload_story">Upload Story Success</string>
-    <string name="failed_upload_story">Failed Uploading Story</string>
+    <string name="failed_upload_story">Failed Uploading Story, Please Fill out data valid</string>
     <string name="setting">Setting Language</string>
     <string name="normal_type">Normal</string>
     <string name="satellite_type">Satellite</string>
     <string name="terrain_type">Terrain</string>
     <string name="hybrid_type">Hybrid</string>
     <string name="retry">Retry</string>
-    <string name="latitude">Latitude</string>
-    <string name="longtitude">Longtitude</string>
-    <string name="ambil_dari_map">Ambil dari Map</string>
+    <string name="latitude">Latitude(optional)</string>
+    <string name="longtitude">Longtitude(optional)</string>
+    <string name="ambil_dari_map">Get From Map</string>
+    <string name="pin">Pin Map</string>
+    <string name="confirm">Confirm</string>
 </resources>

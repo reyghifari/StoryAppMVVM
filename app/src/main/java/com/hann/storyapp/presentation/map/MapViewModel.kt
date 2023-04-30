@@ -3,7 +3,6 @@ package com.hann.storyapp.presentation.map
 import androidx.lifecycle.*
 import com.hann.storyapp.data.Resource
 import com.hann.storyapp.domain.usecase.StoryUseCase
-import com.hann.storyapp.presentation.main.MainState
 import com.hann.storyapp.utils.Constants
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

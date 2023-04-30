@@ -89,21 +89,21 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
                     event.x > warningButtonStart -> isClearButtonClicked = true
                 }
             }
-            if (isClearButtonClicked) {
+            return if (isClearButtonClicked) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         warningButtonImg = ContextCompat.getDrawable(context, R.drawable.baseline_warning_24) as Drawable
                         showWarningButton()
-                        return true
+                        true
                     }
                     MotionEvent.ACTION_UP -> {
                         warningButtonImg = ContextCompat.getDrawable(context, R.drawable.baseline_warning_24) as Drawable
                         error = "Masukan Minimal 8 Karakter"
-                        return true
+                        true
                     }
-                    else -> return false
+                    else -> false
                 }
-            } else return false
+            } else false
         }
         return false
     }

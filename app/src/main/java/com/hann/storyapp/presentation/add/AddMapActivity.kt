@@ -4,8 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import androidx.appcompat.app.AppCompatActivity
@@ -20,14 +18,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.hann.storyapp.R
 import com.hann.storyapp.databinding.ActivityAddMapBinding
 import com.hann.storyapp.presentation.add.AddStoryActivity.Companion.EXTRA_LATITUDE
 import com.hann.storyapp.presentation.add.AddStoryActivity.Companion.EXTRA_LONGTITUDE
-import java.io.IOException
-import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class AddMapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,
@@ -36,7 +30,6 @@ class AddMapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener
     private lateinit var binding: ActivityAddMapBinding
     private lateinit var mMap : GoogleMap
     private lateinit var mapView: MapView
-    private val DEFAULT_ZOOM = 15f
     private var mapViewBundle : Bundle? = null
     private var fusedLocationProviderClient : FusedLocationProviderClient? = null
     private var latitude : String = "0.0"
@@ -103,18 +96,16 @@ class AddMapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener
             @SuppressLint("MissingPermission")
             val location = fusedLocationProviderClient!!.lastLocation
 
-            location.addOnCompleteListener(object : OnCompleteListener<Location> {
-                override fun onComplete(p0: Task<Location>){
-                    if (p0.isSuccessful){
-                        val currentLocation = p0.result as Location?
-                        if (currentLocation != null){
-                            moveCamera(
-                                LatLng(currentLocation.latitude, currentLocation.longitude)
-                            )
-                        }
+            location.addOnCompleteListener { p0 ->
+                if (p0.isSuccessful) {
+                    val currentLocation = p0.result
+                    if (currentLocation != null) {
+                        moveCamera(
+                            LatLng(currentLocation.latitude, currentLocation.longitude)
+                        )
                     }
                 }
-            })
+            }
 
         }catch (e: Exception){
             Log.e("TAG","Security Excepton")
@@ -123,7 +114,7 @@ class AddMapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener
 
 
     private fun moveCamera(latLng: LatLng) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,DEFAULT_ZOOM))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15f))
     }
 
     override fun onMapReady(p0: GoogleMap) {

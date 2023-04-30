@@ -16,7 +16,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -34,7 +33,6 @@ class MainViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
 
-
     private val dummyToken = DataDummy.getTokenDummy()
 
     @Mock
@@ -49,7 +47,7 @@ class MainViewModelTest {
         val stories  =MutableLiveData<PagingData<Story>>()
         stories.value = data
 
-        Mockito.`when`(mainViewModel.getStory(dummyToken)).thenReturn(stories)
+        `when`(mainViewModel.getStory(dummyToken)).thenReturn(stories)
 
         val actualStories = mainViewModel.getStory(dummyToken).getOrAwaitValue()
 
@@ -61,9 +59,15 @@ class MainViewModelTest {
         )
         differ.submitData(actualStories)
 
-        Mockito.verify(mainViewModel).getStory(dummyToken)
-        Assert.assertNotNull(differ.snapshot())
-        assertEquals(10, differ.snapshot().size)
+
+        val expectedFirstStory = dataDummy[0]
+        val actualFirstStory = differ.snapshot().first()
+
+
+        verify(mainViewModel).getStory(dummyToken) // memeriksa mock telah dipanggil
+        assertEquals(expectedFirstStory.id, actualFirstStory?.id) //Memastikan data pertama yang dikembalikan sesuai.
+        Assert.assertNotNull(differ.snapshot()) // Memastikan data tidak null.
+        assertEquals(10, differ.snapshot().size) // Memastikan jumlah data sesuai dengan yang diharapkan.
     }
 
     private val noopListUpdateCallback = object : ListUpdateCallback {
