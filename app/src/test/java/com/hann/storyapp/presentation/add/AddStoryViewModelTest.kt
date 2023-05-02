@@ -1,12 +1,17 @@
 package com.hann.storyapp.presentation.add
 
+import androidx.lifecycle.SavedStateHandle
 import com.hann.storyapp.data.Resource
+import com.hann.storyapp.domain.usecase.StoryUseCase
+import com.hann.storyapp.presentation.main.MainViewModel
+import com.hann.storyapp.ui.preference.UserPreference
 import com.hann.storyapp.util.CoroutinesTestRule
 import com.hann.storyapp.util.DataDummy
 import junit.framework.Assert
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,17 +26,24 @@ class AddStoryViewModelTest {
     var coroutinesTestRule = CoroutinesTestRule()
 
 
-    @Mock
     private lateinit var addStoryViewModel : AddStoryViewModel
+
+    @Mock private lateinit var storuUseCase: StoryUseCase
+    @Mock private lateinit var userPreference: UserPreference
 
     private val dummyUploadResponse = DataDummy.generateDummyFileUploadResponse()
     private val dummyDescription = DataDummy.generateDummyRequestBody()
     private val dummyMultipart = DataDummy.generateDummyMultipartFile()
     private val dummyToken = DataDummy.getTokenDummy()
 
+    @Before
+    fun setUp(){
+        addStoryViewModel = AddStoryViewModel(storuUseCase, userPreference)
+    }
+
+
     @Test
     fun `Upload file successfully`() = runTest {
-
             val expected = flowOf(Resource.Success(dummyUploadResponse))
 
             Mockito.`when`( addStoryViewModel.uploadStory(dummyMultipart, dummyDescription ,dummyToken, null, null))
@@ -54,7 +66,5 @@ class AddStoryViewModelTest {
                     }
                 }
             }
-            Mockito.verify(addStoryViewModel)
-                .uploadStory(dummyMultipart, dummyDescription ,dummyToken, null, null)
         }
 }

@@ -111,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val fields = arrayOf( binding.emailEditLogin.text, binding.passwordEditLogin.text)
-                binding.loginBtn.isEnabled = fields.all { !it.isNullOrEmpty() }
+                binding.loginBtn.isEnabled = fields.all { !it.isNullOrEmpty() } && fields[1].toString().length >= 8
             }
             override fun afterTextChanged(p0: Editable?) { }
         }

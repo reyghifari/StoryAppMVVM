@@ -28,6 +28,10 @@ object DataDummy {
         return fakeStoryDTO
     }
 
+    fun generateListStoryEmpty(): List<Story> {
+        return emptyList()
+    }
+
     fun generateDummyFileUploadResponse(): AddStoryResponse {
         return AddStoryResponse(
             error = false,
